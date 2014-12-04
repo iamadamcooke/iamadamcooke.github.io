@@ -1,0 +1,260 @@
+[
+  {
+    "Sport":"OVERALL AVERAGE",
+    "Age":26.1,
+    "Height, cm":176.9,
+    "Weight, kg":72.8
+  },
+  {
+    "Sport":"Archery",
+    "Age":26.1,
+    "Height, cm":173.7,
+    "Weight, kg":71.9
+  },
+  {
+    "Sport":"Athletics",
+    "Age":26.2,
+    "Height, cm":176,
+    "Weight, kg":69.2
+  },
+  {
+    "Sport":"Athletics, Triathlon",
+    "Age":30,
+    "Height, cm":173,
+    "Weight, kg":60
+  },
+  {
+    "Sport":"Badminton",
+    "Age":26.2,
+    "Height, cm":173.6,
+    "Weight, kg":66.8
+  },
+  {
+    "Sport":"Basketball",
+    "Age":27.2,
+    "Height, cm":192.1,
+    "Weight, kg":87
+  },
+  {
+    "Sport":"Beach Volleyball",
+    "Age":29.2,
+    "Height, cm":187,
+    "Weight, kg":80
+  },
+  {
+    "Sport":"Boxing",
+    "Age":24,
+    "Height, cm":175,
+    "Weight, kg":null
+  },
+  {
+    "Sport":"Canoe Slalom",
+    "Age":26.8,
+    "Height, cm":175.3,
+    "Weight, kg":70.2
+  },
+  {
+    "Sport":"Canoe Sprint",
+    "Age":26.2,
+    "Height, cm":179.4,
+    "Weight, kg":78.2
+  },
+  {
+    "Sport":"Cycling - BMX",
+    "Age":23.5,
+    "Height, cm":176.1,
+    "Weight, kg":77.6
+  },
+  {
+    "Sport":"Cycling - BMX, Cycling - Track",
+    "Age":23,
+    "Height, cm":170,
+    "Weight, kg":79
+  },
+  {
+    "Sport":"Cycling - Mountain Bike",
+    "Age":27.9,
+    "Height, cm":173.6,
+    "Weight, kg":62.4
+  },
+  {
+    "Sport":"Cycling - Mountain Bike, Cycling - Road",
+    "Age":33,
+    "Height, cm":173.5,
+    "Weight, kg":60.5
+  },
+  {
+    "Sport":"Cycling - Mountain Bike, Cycling - Road, Cycling - Track",
+    "Age":26.7,
+    "Height, cm":170.3,
+    "Weight, kg":57
+  },
+  {
+    "Sport":"Cycling - Mountain Bike, Cycling - Track",
+    "Age":24.3,
+    "Height, cm":183,
+    "Weight, kg":80.7
+  },
+  {
+    "Sport":"Cycling - Road",
+    "Age":28.3,
+    "Height, cm":176.7,
+    "Weight, kg":66.8
+  },
+  {
+    "Sport":"Cycling - Road, Cycling - Track",
+    "Age":29.4,
+    "Height, cm":173.6,
+    "Weight, kg":66.1
+  },
+  {
+    "Sport":"Cycling - Track",
+    "Age":25.2,
+    "Height, cm":175.7,
+    "Weight, kg":72.3
+  },
+  {
+    "Sport":"Diving",
+    "Age":22.9,
+    "Height, cm":165.5,
+    "Weight, kg":59.8
+  },
+  {
+    "Sport":"Equestrian",
+    "Age":37.9,
+    "Height, cm":174.4,
+    "Weight, kg":67.2
+  },
+  {
+    "Sport":"Fencing",
+    "Age":26.3,
+    "Height, cm":176.7,
+    "Weight, kg":69.6
+  },
+  {
+    "Sport":"Football",
+    "Age":23.3,
+    "Height, cm":174.1,
+    "Weight, kg":68.7
+  },
+  {
+    "Sport":"Gymnastics - Artistic",
+    "Age":22.1,
+    "Height, cm":161.1,
+    "Weight, kg":null
+  },
+  {
+    "Sport":"Gymnastics - Rhythmic",
+    "Age":19.5,
+    "Height, cm":170.1,
+    "Weight, kg":null
+  },
+  {
+    "Sport":"Handball",
+    "Age":28,
+    "Height, cm":183.8,
+    "Weight, kg":82.5
+  },
+  {
+    "Sport":"Hockey",
+    "Age":26,
+    "Height, cm":173.2,
+    "Weight, kg":69
+  },
+  {
+    "Sport":"Judo",
+    "Age":25.9,
+    "Height, cm":173.5,
+    "Weight, kg":76.7
+  },
+  {
+    "Sport":"Modern Pentathlon",
+    "Age":25.4,
+    "Height, cm":175.4,
+    "Weight, kg":65.9
+  },
+  {
+    "Sport":"Rowing",
+    "Age":27.2,
+    "Height, cm":185.6,
+    "Weight, kg":80.9
+  },
+  {
+    "Sport":"Sailing",
+    "Age":28.3,
+    "Height, cm":177.9,
+    "Weight, kg":74.2
+  },
+  {
+    "Sport":"Shooting",
+    "Age":31.4,
+    "Height, cm":172.1,
+    "Weight, kg":72.9
+  },
+  {
+    "Sport":"Swimming",
+    "Age":22.4,
+    "Height, cm":179.5,
+    "Weight, kg":71.6
+  },
+  {
+    "Sport":"Synchronised Swimming",
+    "Age":22.8,
+    "Height, cm":168.6,
+    "Weight, kg":null
+  },
+  {
+    "Sport":"Table Tennis",
+    "Age":27.6,
+    "Height, cm":172.1,
+    "Weight, kg":66.2
+  },
+  {
+    "Sport":"Taekwondo",
+    "Age":24.1,
+    "Height, cm":176.3,
+    "Weight, kg":null
+  },
+  {
+    "Sport":"Tennis",
+    "Age":27.1,
+    "Height, cm":180.1,
+    "Weight, kg":72.9
+  },
+  {
+    "Sport":"Trampoline",
+    "Age":25.6,
+    "Height, cm":166.3,
+    "Weight, kg":null
+  },
+  {
+    "Sport":"Triathlon",
+    "Age":27.9,
+    "Height, cm":174,
+    "Weight, kg":61.2
+  },
+  {
+    "Sport":"Volleyball",
+    "Age":26.6,
+    "Height, cm":189.7,
+    "Weight, kg":79.9
+  },
+  {
+    "Sport":"Water Polo",
+    "Age":26.8,
+    "Height, cm":185.6,
+    "Weight, kg":85.4
+  },
+  {
+    "Sport":"Weightlifting",
+    "Age":24.6,
+    "Height, cm":166.6,
+    "Weight, kg":77.5
+  },
+  {
+    "Sport":"Wrestling",
+    "Age":26,
+    "Height, cm":172.5,
+    "Weight, kg":74.6
+  }
+]

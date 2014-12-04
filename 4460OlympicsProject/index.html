@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Olympics Group</title>
+<link href="nv.d3.css" rel="stylesheet" type="text/css">
+<style>
+
+#bottom{
+  margin-left: 10%;
+}
+
+#top{
+  margin-left: 15.5%;
+}
+
+
+#scatter svg {
+  height: 300px;
+  width: 400px;
+  float: left;
+}
+#graph {
+  float:left;
+  height:300px;
+  width: 720px;
+  text-align: center;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+.country:hover{
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+.text{
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size:10px;
+  text-transform:capitalize;
+}
+#container {
+  margin-left: 15px;
+  border:2px solid #000;
+  border-radius: 5px;
+  height:100%;
+  overflow:hidden;
+  background: #F0F8FF;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+h1{
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center;
+}
+
+p{
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center;
+  margin: 10px;
+}
+
+.hidden { 
+  display: none; 
+}
+div.tooltip {
+  font-family: 'Source Sans Pro', sans-serif;
+    background: rgba(0,0,0,.7);
+    border-radius: 2px;
+
+    color: #fff;
+    text-align: center;
+    content: attr(title);
+    left: 10%;
+    padding: 2px 10px;
+    position: absolute;
+    z-index: 98;
+    width: relative;
+}
+
+.nvtooltip {
+    font-family: 'Source Sans Pro', sans-serif;
+    background: rgba(0,0,0,.7);
+    border-radius: 2px;
+
+    color: #fff;
+    text-align: center;
+    content: attr(title);
+    left: 10%;
+    padding: 2px 10px;
+    position: absolute;
+    z-index: 98;
+    width: relative;
+    }  
+
+div.tooltip2 {
+  font-family: 'Source Sans Pro', sans-serif;
+    background: rgba(0,0,0,.7);
+    border-radius: 2px;
+    color: #fff;
+    text-align: left;
+    content: attr(title);
+    left: 10%;
+    padding: 2px 10px;
+    z-index: 98;
+    width: 140px;
+    position: {
+        viewport: $(window),
+        adjust: { method: 'shift' }
+    };
+}
+
+.bar {
+  fill: rgb(52,172,200);
+}
+
+.bar:hover {
+  fill: orange ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.axis text {
+  font-family: 'Source Sans Pro', sans-serif;
+  font: 10px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.image-wrapper {
+  display: inline-block;
+  background: url(img/bg.jpg) no-repeat;
+}
+.image-wrapper img {
+  vertical-align: top;
+  opacity: 0.7;
+}
+
+.graticule {
+  fill: none;
+  stroke: #bbb;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+.equator {
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+
+.tooltip { /* hide and position tooltip */
+  display: inline;
+  position: relative;
+  padding-left: 5px;
+  margin-top: 5px;
+}
+
+.tooltip:hover:after{
+    font-family: 'Source Sans Pro', sans-serif;
+    background: #333;
+    background: rgba(0,0,0,.7);
+    border-radius: 3px;
+    bottom: 26px;
+    color: #fff;
+    text-align: center;
+    content: attr(title);
+    left: 10%;
+    padding: 2px 10px;
+    position: absolute;
+    z-index: 98;
+    width: relative;
+}
+
+.tooltip:hover:before{
+    border: solid;
+    border-color: #333 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
+}
+
+#header {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }
+#controls {
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center;
+  color: #000000;
+  float: left;
+  clear: left;
+  margin: 0 20px;
+}
+
+#icon{
+  opacity: 1;
+}
+
+#icon:visited{
+  opacity: 0.4;
+}
+
+#icon:hover{
+  opacity: 0.4;
+}
+
+</style>
+</head>
+<body>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+   <div id="HeaderImage">
+        <img id="header" src="images/header.jpg" height="130" width="1000" align="middle"/>
+  </div>
+
+<div id="top" style="width: 100%;">
+ <div id="icons" style="float: left;">
+    <p>Select Sport</p>
+    <div id="row1">
+      <script type="text/javascript">
+          function opac(pic)  {
+          pic.style.opacity=0.4
+          pic.style.filter="alpha(opacity=40)"
+          }
+
+        </script>
+      <a  href="#" title="Archery" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Archery.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Athletics" class="tooltip"><span title="More">
+          <img id="icon" onclick="opac(this)" src="images/Athletics.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Athletics-Triathlon" class="tooltip"><span title="More">
+          <img id="icon" onclick="opac(this)" src="images/Athletics_Triathlon.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Badminton" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Badmiton.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Basketball" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Basketball.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Beach Volleyball" class="tooltip"><span title="More">  
+        <img id="icon" onclick="opac(this)" src="images/Beach_Volleyball.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Boxing" class="tooltip"><span title="More">  
+        <img id="icon" onclick="opac(this)" src="images/Boxing.png" height="35" width="35"/></span></a>
+     
+    
+</div>
+
+    <div id="row2">
+      <a  href="#" title="Canoe-Slalom" class="tooltip"><span title="More">  
+        <img id="icon" onclick="opac(this)" src="images/Canoeing.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Canoe-Sprint" class="tooltip"><span title="More">  
+        <img id="icon" onclick="opac(this)" src="images/Canoeing.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-BMX" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_BMX.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-BMX, Track" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_BMX_Track.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-Mountain Bike" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_MountainBike.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-Mountain Bike, Road" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_MountainBike&Road.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-Mountain Bike, Track" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_MountainBike&Track.png" height="35" width="35"/></span></a>
+    </div>
+
+    <div id="row3">
+      <a  href="#" title="Cycling-Road" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_Road.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-Road, Track" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cylcing_Road&Track.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Cycling-Track" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Cycling_Track.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Diving" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Diving.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Equestrian-Extra" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Equestrian_Extra.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Equestrian" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Equestrian.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Fencing" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Fencing.png" height="35" width="35"/></span></a>
+    </div>
+
+    <div id="row4">
+      <a  href="#" title="Football" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Football.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Gymnastics-Artistic" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Gymnastics_Artistic.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Gymnastics-Rhythmic" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Gymnastics_Rythmic.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Handball" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Handball.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Hockey" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Hockey.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Judo" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Judo.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Modern Pentathalon" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Modern_Pentathlon.png" height="35" width="35"/></span></a>
+    </div>
+
+    <div id="row5">
+      <a  href="#" title="Rowing" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Rowing.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Sailing" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Sailing.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Shooting" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Shooting.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Swimming" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Swimming.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Synchronised Swimming" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Synchronised_Swimming.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Table Tennis" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Table_Tennis.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Taekwondo" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Taekwondo.png" height="35" width="35"/></span></a>
+    </div>
+
+    <div id="row6">
+      <a  href="#" title="Tennis" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Tennis.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Trampoline" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Trampoline.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Triathlon" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Triathlon.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Volleyball" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Volleyball.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Water Polo" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Water_Polo.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Weightlifting" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Weightlifting.png" height="35" width="35"/></span></a>
+      <a  href="#" title="Wrestling" class="tooltip"><span title="More">
+        <img id="icon" onclick="opac(this)" src="images/Wrestling.png" height="35" width="35"/></span></a>
+    </div>
+  </div>
+  <div id="container" style="float:left; position: relative; width: 650px; height: 300px;"></div>
+</div>
+
+
+<div id="bottom" style="width: 100%;">
+  <div id="chart">
+    <div id="controls">
+      Total Medals Won vs. <select id="xaxiss"><option value="age">Age</option><option value="height">Height(cm)</option><option value="weight">Weight(kg)</option></select>
+      <div id="scatter" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+    </div>
+    
+  </div>
+  </div>
+  <div id="graph">Medal Distribution by Country</div>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type='text/javascript' > 
+  window.country = "test";
+  window.glob = false;
+</script>
+
+<script src="js/d3.min.js"></script>
+<script src="js/nv.d3.js"></script>
+<script src="js/topojson.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP MAP 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<script>
+
+d3.select(window).on("resize", throttle);
+
+var zoom = d3.behavior.zoom()
+    .scaleExtent([0, 10])
+    .on("zoom", move);
+
+
+var width = document.getElementById('container').offsetWidth;
+var height = width / 2;
+
+var topo,projection,path,svg,g;
+
+var graticule = d3.geo.graticule();
+
+var tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
+
+setup(width,height);
+
+function setup(width,height){
+  projection = d3.geo.mercator()
+    .translate([(width/2), (height/2)])
+    .scale( width / 2 / Math.PI);
+
+  path = d3.geo.path().projection(projection);
+
+  svg2 = d3.select("#container").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .call(zoom)
+      .on("click", click)
+      .append("g");
+
+  g = svg2.append("g");
+
+}
+
+d3.json("data/world-topo-min.json", function(error, world) {
+
+  var countries = topojson.feature(world, world.objects.countries).features;
+
+  topo = countries;
+  draw(topo);
+
+});
+
+function draw(topo) {
+
+  svg2.append("path")
+     .datum(graticule)
+     .attr("class", "graticule")
+     .attr("d", path);
+
+
+  g.append("path")
+   .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
+   .attr("class", "equator")
+   .attr("d", path);
+
+
+  var country = g.selectAll(".country").data(topo);
+
+  country.enter().insert("path")
+      .attr("class", "country")
+      .attr("d", path)
+      .attr("id", function(d,i) { return d.id; })
+      .attr("title", function(d,i) { return d.properties.name; })
+      .style("fill", function(d, i) { return d.properties.color; });
+
+  //offsets for tooltips
+  var offsetL = document.getElementById('container').offsetLeft;
+  var offsetT = document.getElementById('container').offsetTop;
+
+  //tooltips
+  country
+    .on("mousemove", function(d,i) {
+
+      var mouse = d3.mouse(svg2.node()).map( function(d) { return parseInt(d); } );
+
+      tooltip.classed("hidden", false)
+             .attr("style", "left:"+(mouse[0])+"px;top:"+(mouse[1])+"px")
+             .html(d.properties.name);
+             
+
+             message = {Country : d.properties.name};
+             window.postMessage(message, "*");
+             
+             
+          
+
+      })
+      .on("mouseout",  function(d,i) {
+        tooltip.classed("hidden", true);
+        message = "";
+         window.postMessage(message, "*");
+      }); 
+
+
+  //EXAMPLE: adding some capitals from external CSV file
+ // d3.csv("data/country-capitals.csv", function(err, capitals) {
+
+    //capitals.forEach(function(i){
+      //addpoint(i.CapitalLongitude, i.CapitalLatitude, i.CapitalName );
+    //});
+
+  //});
+
+}
+
+
+
+function redraw() {
+  width = document.getElementById('container').offsetWidth;
+  height = width / 2;
+  d3.select('svg2').remove();
+  setup(width,height);
+  draw(topo);
+}
+
+
+function move() {
+
+  var t = d3.event.translate;
+  var s = d3.event.scale; 
+  zscale = s;
+  var h = height/4;
+
+
+  t[0] = Math.min(
+    (width/height)  * (s - 1), 
+    Math.max( width * (1 - s), t[0] )
+  );
+
+  t[1] = Math.min(
+    h * (s - 1) + h * s, 
+    Math.max(height  * (1 - s) - h * s, t[1])
+  );
+
+  zoom.translate(t);
+  g.attr("transform", "translate(" + t + ")scale(" + s + ")");
+
+  //adjust the country hover stroke width based on zoom level
+  d3.selectAll(".country").style("stroke-width", 1.5 / s);
+
+}
+
+
+
+var throttleTimer;
+function throttle() {
+  window.clearTimeout(throttleTimer);
+    throttleTimer = window.setTimeout(function() {
+      redraw();
+    }, 200);
+}
+
+
+//geo translation on mouse click in map
+function click() {
+  var latlon = projection.invert(d3.mouse(this));
+  console.log(latlon);
+}
+
+
+//function to add points and text to the map (used in plotting capitals)
+function addpoint(lat,lon,text) {
+
+  var gpoint = g.append("g").attr("class", "gpoint");
+  var x = projection([lat,lon])[0];
+  var y = projection([lat,lon])[1];
+
+  gpoint.append("svg2:circle")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("class","point")
+        .attr("r", 1.5);
+
+  //conditional in case a point has no associated text
+  if(text.length>0){
+
+    gpoint.append("text")
+          .attr("x", x+2)
+          .attr("y", y+2)
+          .attr("class","text")
+          .text(text);
+  }
+
+}
+
+</script>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    SCATTERPLOT SCATTERPLOT SCATTERPLOT SCATTERPLOT SCATTERPLOT 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script> 
+
+var chart;
+nv.addGraph(function() {
+  chart = nv.models.scatterChart()
+                .showDistX(true)
+                .showDistY(true)
+                .useVoronoi(true)
+                .color(d3.scale.category10().range())
+                .transitionDuration(300)
+                .showLegend(false)
+                ;
+  //chart.xAxis.tickFormat(d3.format('.02f'));
+  //chart.yAxis.tickFormat(d3.format('.02f'));
+  chart.tooltipContent(function(key, x, y, e, graph) {
+    
+     var value = e.series.values[e.pointIndex];
+      return "<div class='nvtooltip'><strong><span style='color:white'>" + value.country + "</span></strong><div><strong><span style='color:white'>Total Meldals: </strong><span> " + value.y + "<span></div><div><strong><span style='color:white'>"+ $("#xaxiss :selected").text() + ": </strong><span> " + value.x + "<span></div>";
+  });
+
+  d3.select('#scatter svg')
+      .datum(getData('age'))
+      .call(chart);
+  nv.utils.windowResize(chart.update);
+  chart.dispatch.on('stateChange', function(e) { ('New State:', JSON.stringify(e)); });
+  return chart;
+});
+
+$('#xaxiss').change(function() {
+   category = $(this).val();
+   d3.select('#scatter svg')
+      .datum(getData(category))
+      .call(chart);
+});
+
+function getData(category) {
+  var raw;
+  $.ajax({
+  url: 'data/OlympicsJson.json',
+  async: false,
+  dataType: 'json',
+  success: function (json) {
+     raw = json;
+  }
+});
+var data = [];
+for (i = 0; i < 1; i++) {
+    data.push({
+      key: 'Group ' + i,
+      values: []
+    });
+    for (j = 0; j < raw.length; j++) {
+      //console.log(raw[j].Country + " " + raw[j].Age + " " + raw[j].Medals);
+      if(category == 'age') {
+        data[i].values.push({
+        x: raw[j].Age, 
+        y: raw[j].Medals, 
+        size: 10, 
+        country: raw[j].Country,
+        shape: 'circle'
+      });
+      }
+      else if (category == 'weight') {
+        data[i].values.push({
+        x: raw[j].Weight, 
+        y: raw[j].Medals, 
+        size: 10, 
+        country: raw[j].Country,
+        shape: 'circle'
+      });
+      }
+      else if (category == 'height') {
+        data[i].values.push({
+        x: raw[j].Height, 
+        y: raw[j].Medals, 
+        size: 10, 
+        country: raw[j].Country,
+        shape: 'circle'
+      });
+      }
+
+      
+    }
+  }
+
+return data;
+       
+  
+
+}
+
+
+function randomData(groups, points) { //# groups,# points per group
+  var data = [],
+      shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
+      random = d3.random.normal();
+  for (i = 0; i < groups; i++) {
+    data.push({
+      key: 'Group ' + i,
+      values: []
+    });
+    for (j = 0; j < points; j++) {
+      data[i].values.push({
+        x: random(), 
+        y: random(), 
+        size: Math.random(), 
+        shape: shapes[j % 6]
+      });
+    }
+  }
+  console.log(data);
+  return data;
+}
+
+
+</script>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    BAR GRAPH BAR GRAPH BAR GRAPH BAR GRAPH BAR GRAPH BAR GRAPH BAR GRAPH 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<script>
+
+
+var margin = {top: 0, right: 20, bottom: 30, left: 40},
+    width = 670 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1, 1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var oldCountry ="";
+
+
+function messageReceived(event) {
+  if(oldCountry === event.data.Country) {
+    svg.selectAll("rect").filter(function(d) { return d.Country === event.data.Country; }).style("fill", "orange");
+  }
+  else {
+    svg.selectAll("rect").filter(function(d) { return d.Country === oldCountry; }).style("fill", "#34ACC8");
+
+    oldCountry = event.data.Country;
+  }
+}
+
+window.addEventListener("message", messageReceived);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<div class='tooltip2'><strong><span style='color:white'>" + d.Country + "</span></strong><div><strong><span style='color:white'>Total Meldals:</strong><span> " + d.Total + "<span></div><div><strong><span style='color:gold'>Gold:</strong><span> " + d.Gold + "<span></div><div><strong><span style='color:silver'>Silver:</strong><span> " + d.Silver + "<span></div><div><strong><span style='color:#CD7F32'>Bronze:</strong><span> " + d.Bronze + "<span></div></div>";
+  })
+
+var svg = d3.select("#graph").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+d3.json("data/2012OlympicMedals.json", function(error, data) {
+
+  data.forEach(function(d) {
+    d.Total = +d.Total;
+  });
+
+  x.domain(data.map(function(d) { return d.Country; }));
+  y.domain([0, d3.max(data, function(d) { return d.Total; })]);
+
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("font-size","15px")
+      .style("text-anchor", "end");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.Country); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.Total); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      .attr("height", function(d) { return height - y(d.Total); });
+
+  d3.select("input").on("change", change);
+
+  var sortTimeout = setTimeout(function() {
+    d3.select("input").property("unchecked", true).each(change);
+  }, 2000);
+
+  function change() {
+    clearTimeout(sortTimeout);
+
+    // Copy-on-write since tweens are evaluated after a delay.
+    var x0 = x.domain(data.sort(this.checked
+        ? function(a, b) { return b.Total - a.Total; }
+        : function(a, b) { return d3.ascending(a.Total, b.Total); })
+        .map(function(d) { return d.Country; }))
+        .copy();
+
+    var transition = svg.transition().duration(750),
+        delay = function(d, i) { return i * 50; };
+
+    transition.selectAll(".bar")
+        .delay(delay)
+        .attr("x", function(d) { return x0(d.Country); });
+
+    transition.select(".x.axis")
+        .call(xAxis)
+      .selectAll("g")
+        .delay(delay);
+  }
+});
+
+</script>
+</body>
+</html>
